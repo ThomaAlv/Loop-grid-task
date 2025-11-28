@@ -58,7 +58,7 @@ public class Gridsolver {
         }
 
         Sequence solution = gridsolver.findLargestSequence(grid);
-        System.out.println(String.format("\nThe largest sequence found is:\n\n%s", solution.toString()));
+        System.out.println(String.format("\nThe largest sequence found is:\n%s", solution.toString()));
 
         inputReader.close();
     }
