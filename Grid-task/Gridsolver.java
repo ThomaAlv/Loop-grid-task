@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Gridsolver {
-    //store the largest sequence; [product, num_1_index, num_2_index, num_3_index, num_4_index]
-    int[][] largestSequenceIndices = new int[2][4];
-    int largestSequenceProduct = 0;
-
     //main method to run the grid solver program
     public static void main(String[] args) throws IOException {
         //initialize program constants
@@ -71,15 +67,43 @@ public class Gridsolver {
      * @param grid - the grid to be checked
      */
     public Sequence findLargestSequence(int[][] grid) {
+        Sequence largestFoundSequence = new Sequence(new int[2][4], 0);
         for (int rowIndex = 0; rowIndex < grid.length; rowIndex++) {
             for (int colIndex = 0; colIndex < grid.length; colIndex++) {
-                checkAllDirections(rowIndex, colIndex);
+                Sequence largestDirectionalSequence = checkAllDirections(rowIndex, colIndex, grid);
+
+                //compare largest directional sequence to largest found sequence and update if larger  
+                if (largestDirectionalSequence.isLargerThan(largestFoundSequence)) {
+                    largestFoundSequence = largestDirectionalSequence;
+                }
             }
         }
+        return largestFoundSequence;
     }
 
-    private Sequence checkAllDirections(int rowIndex, int colIndex) {
+    private Sequence checkAllDirections(int rowIndex, int colIndex, int[][] grid) {
+        //initialize return value and sequence storage
+        Sequence largestDirectionalSequence = new Sequence(new int[2][4], 0);
+        Sequence[] directionalSequences = new Sequence[4];
         
+        //find and store all directional sequences
+        directionalSequences[0] = checkHorizontalSequence(rowIndex, colIndex, grid);
+        directionalSequences[1] = checkVerticalSequence(rowIndex, colIndex, grid);
+        directionalSequences[2] = checkDiagonalRightSequence(rowIndex, colIndex, grid);
+        directionalSequences[3] = checkDiagonalLeftSequence(rowIndex, colIndex, grid);
+
+        for (Sequence seq : directionalSequences) {
+            //go to next sequence if no valid sequence could be calculated
+            if (seq == null) {
+                continue;
+            }
+            //update largest directional sequence if a larger one is encountered
+            if (seq.isLargerThan(largestDirectionalSequence)) {
+                largestDirectionalSequence = seq;
+            }
+        }
+
+        return largestDirectionalSequence;
     }
 
     private Sequence checkHorizontalSequence(int rowIndex, int colIndex, int[][] grid) {
