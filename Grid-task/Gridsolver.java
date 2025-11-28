@@ -58,6 +58,7 @@ public class Gridsolver {
         }
 
         Sequence solution = gridsolver.findLargestSequence(grid);
+        System.out.println(String.format("\nThe largest sequence found is:\n\n%s", solution.toString()));
 
         inputReader.close();
     }
@@ -67,7 +68,7 @@ public class Gridsolver {
      * @param grid - the grid to be checked
      */
     public Sequence findLargestSequence(int[][] grid) {
-        Sequence largestFoundSequence = new Sequence(new int[2][4], 0);
+        Sequence largestFoundSequence = new Sequence(new int[4][2], 0);
         for (int rowIndex = 0; rowIndex < grid.length; rowIndex++) {
             for (int colIndex = 0; colIndex < grid.length; colIndex++) {
                 Sequence largestDirectionalSequence = checkAllDirections(rowIndex, colIndex, grid);
@@ -83,7 +84,7 @@ public class Gridsolver {
 
     private Sequence checkAllDirections(int rowIndex, int colIndex, int[][] grid) {
         //initialize return value and sequence storage
-        Sequence largestDirectionalSequence = new Sequence(new int[2][4], 0);
+        Sequence largestDirectionalSequence = new Sequence(new int[4][2], 0);
         Sequence[] directionalSequences = new Sequence[4];
         
         //find and store all directional sequences
@@ -113,8 +114,8 @@ public class Gridsolver {
         }
 
         //calculate product and save indices
-        int product = 1;
-        int[][] indices = new int[2][4];
+        long product = 1;
+        int[][] indices = new int[4][2];
         for (int i = 0; i < 4; i++) {
             product = product * grid[rowIndex][colIndex+i];
             indices[i] = new int[] {rowIndex, colIndex+i};
@@ -131,7 +132,7 @@ public class Gridsolver {
 
         //calculate product and save indices
         int product = 1;
-        int[][] indices = new int[2][4];
+        int[][] indices = new int[4][2];
 
         for (int i = 0; i < 4; i++) {
             product = product * grid[rowIndex+i][colIndex];
@@ -148,7 +149,7 @@ public class Gridsolver {
 
         //calculate product and save indices
         int product = 1;
-        int[][] indices = new int[2][4];
+        int[][] indices = new int[4][2];
         for (int i = 0; i < 4; i++) {
             product = product * grid[rowIndex+i][colIndex+i];
             indices[i] = new int[] {rowIndex+i, colIndex+i};
@@ -164,7 +165,7 @@ public class Gridsolver {
 
         //calculate product and save indices
         int product = 1;
-        int[][] indices = new int[2][4];
+        int[][] indices = new int[4][2];
 
         for (int i = 0; i < 4; i++) {
             product = product * grid[rowIndex+i][colIndex-i];
