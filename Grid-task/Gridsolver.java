@@ -66,6 +66,7 @@ public class Gridsolver {
     /**
      * Finds the largest sequence of four numbers in a two-dimensional square grid of numbers
      * @param grid - the grid to be checked
+     * @return a Sequence object representing the largest found sequence in grid
      */
     public Sequence findLargestSequence(int[][] grid) {
         Sequence largestFoundSequence = new Sequence(new int[4][2], 0);
@@ -82,6 +83,13 @@ public class Gridsolver {
         return largestFoundSequence;
     }
 
+    /**
+     * Checks all possible sequences made with the number at (rowIndex, colIndex) as the base
+     * @param rowIndex - row index of the number to check
+     * @param colIndex - column index of the number to check
+     * @param grid - the grid to use as reference
+     * @return a Sequence object representing the largest directional sequence found
+     */
     private Sequence checkAllDirections(int rowIndex, int colIndex, int[][] grid) {
         //initialize return value and sequence storage
         Sequence largestDirectionalSequence = new Sequence(new int[4][2], 0);
@@ -107,6 +115,14 @@ public class Gridsolver {
         return largestDirectionalSequence;
     }
 
+    /**
+     * Calculates the horizontal sequence starting at (rowIndex, colIndex) in grid
+     * @param rowIndex - row index of the number to check
+     * @param colIndex - column index of the number to check
+     * @param grid - the grid to use as reference
+     * @return a Sequence object representing the horizontal sequence, 
+     *         null if no valid sequence can be found
+     */
     private Sequence checkHorizontalSequence(int rowIndex, int colIndex, int[][] grid) {
         //return if there are not enough numbers to form a valid sequence
         if (colIndex >= grid.length-3) {
@@ -123,7 +139,15 @@ public class Gridsolver {
 
         return new Sequence(indices, product); 
     }
-
+    
+    /**
+     * Calculates the vertical sequence starting at (rowIndex, colIndex) in grid
+     * @param rowIndex - row index of the number to check
+     * @param colIndex - column index of the number to check
+     * @param grid - the grid to use as reference
+     * @return a Sequence object representing the vertical sequence, 
+     *         null if no valid sequence can be found
+     */
     private Sequence checkVerticalSequence(int rowIndex, int colIndex, int[][] grid) {
         //return if there are not enough numbers to form a valid sequence
         if (rowIndex >= grid.length-3) {
@@ -141,6 +165,16 @@ public class Gridsolver {
 
         return new Sequence(indices, product); 
     }
+
+    
+    /**
+     * Calculates the diagonal sequence going right and starting at (rowIndex, colIndex) in grid
+     * @param rowIndex - row index of the number to check
+     * @param colIndex - column index of the number to check
+     * @param grid - the grid to use as reference
+     * @return a Sequence object representing the diagonal sequence, 
+     *         null if no valid sequence can be found
+     */
     private Sequence checkDiagonalRightSequence(int rowIndex, int colIndex, int[][] grid) {
         //return if there are not enough numbers to form a valid sequence in minimum one dimension
         if (colIndex >= grid.length-3 || rowIndex >= grid.length-3) {
@@ -157,6 +191,15 @@ public class Gridsolver {
 
         return new Sequence(indices, product); 
     }
+
+    /**
+     * Calculates the diagonal sequence going left and starting at (rowIndex, colIndex) in grid
+     * @param rowIndex - row index of the number to check
+     * @param colIndex - column index of the number to check
+     * @param grid - the grid to use as reference
+     * @return a Sequence object representing the diagonal sequence, 
+     *         null if no valid sequence can be found
+     */
     private Sequence checkDiagonalLeftSequence(int rowIndex, int colIndex, int[][] grid) {
         //return if there are not enough numbers to form a valid sequence in minimum one dimension
         if (colIndex <= 3 || rowIndex >= grid.length-3) {

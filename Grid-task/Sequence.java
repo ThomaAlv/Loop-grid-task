@@ -7,6 +7,11 @@ public class Sequence {
         indices = in;
     }
 
+    /**
+     * Checks whether or not this sequence has a higher product than a different sequence
+     * @param other - the sequence to compare products with
+     * @return - true if this.product >= other.product, false otherwise
+     */
     public boolean isLargerThan(Sequence other) {
         return this.product >= other.product;
     }
