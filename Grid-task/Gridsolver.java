@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Gridsolver {
+    //store the largest sequence; [product, num_1_index, num_2_index, num_3_index, num_4_index]
+    int[][] largestSequenceIndices = new int[2][4];
+    int largestSequenceProduct = 0;
 
     //main method to run the grid solver program
     public static void main(String[] args) throws IOException {
@@ -17,6 +20,8 @@ public class Gridsolver {
 
         //buffer inputReader
         BufferedReader inputReader;
+
+        Gridsolver gridsolver = new Gridsolver();
 
         //try to initialize input file and handle FileNotFoundException
         try {
@@ -56,6 +61,92 @@ public class Gridsolver {
             System.out.println(Arrays.toString(row));
         }
 
+        Sequence solution = gridsolver.findLargestSequence(grid);
+
         inputReader.close();
+    }
+
+    /**
+     * Finds the largest sequence of four numbers in a two-dimensional square grid of numbers
+     * @param grid - the grid to be checked
+     */
+    public Sequence findLargestSequence(int[][] grid) {
+        for (int rowIndex = 0; rowIndex < grid.length; rowIndex++) {
+            for (int colIndex = 0; colIndex < grid.length; colIndex++) {
+                checkAllDirections(rowIndex, colIndex);
+            }
+        }
+    }
+
+    private Sequence checkAllDirections(int rowIndex, int colIndex) {
+        
+    }
+
+    private Sequence checkHorizontalSequence(int rowIndex, int colIndex, int[][] grid) {
+        //return if there are not enough numbers to form a valid sequence
+        if (colIndex >= grid.length-3) {
+            return null;
+        }
+
+        //calculate product and save indices
+        int product = 1;
+        int[][] indices = new int[2][4];
+        for (int i = 0; i < 4; i++) {
+            product = product * grid[rowIndex][colIndex+i];
+            indices[i] = new int[] {rowIndex, colIndex+i};
+        }
+
+        return new Sequence(indices, product); 
+    }
+
+    private Sequence checkVerticalSequence(int rowIndex, int colIndex, int[][] grid) {
+        //return if there are not enough numbers to form a valid sequence
+        if (rowIndex >= grid.length-3) {
+            return null;
+        }
+
+        //calculate product and save indices
+        int product = 1;
+        int[][] indices = new int[2][4];
+
+        for (int i = 0; i < 4; i++) {
+            product = product * grid[rowIndex+i][colIndex];
+            indices[i] = new int[] {rowIndex+i, colIndex};
+        }
+
+        return new Sequence(indices, product); 
+    }
+    private Sequence checkDiagonalRightSequence(int rowIndex, int colIndex, int[][] grid) {
+        //return if there are not enough numbers to form a valid sequence in minimum one dimension
+        if (colIndex >= grid.length-3 || rowIndex >= grid.length-3) {
+            return null;
+        }
+
+        //calculate product and save indices
+        int product = 1;
+        int[][] indices = new int[2][4];
+        for (int i = 0; i < 4; i++) {
+            product = product * grid[rowIndex+i][colIndex+i];
+            indices[i] = new int[] {rowIndex+i, colIndex+i};
+        }
+
+        return new Sequence(indices, product); 
+    }
+    private Sequence checkDiagonalLeftSequence(int rowIndex, int colIndex, int[][] grid) {
+        //return if there are not enough numbers to form a valid sequence in minimum one dimension
+        if (colIndex <= 3 || rowIndex >= grid.length-3) {
+            return null;
+        }
+
+        //calculate product and save indices
+        int product = 1;
+        int[][] indices = new int[2][4];
+
+        for (int i = 0; i < 4; i++) {
+            product = product * grid[rowIndex+i][colIndex-i];
+            indices[i] = new int[] {rowIndex+i, colIndex-i};
+        }
+
+        return new Sequence(indices, product); 
     }
 }
