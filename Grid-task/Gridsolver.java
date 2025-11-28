@@ -9,6 +9,7 @@ public class Gridsolver {
     public static void main(String[] args) throws IOException {
         //initialize program constants
         final String INPUT_FILE = "inputs/grid3.txt";
+        //final String INPUT_FILE = "inputs/example-grid.txt";
         final int GRID_SIZE = 20;
 
         //pre-load grid
